@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "911578362503",
+    "project_id": "cant-wait-1995",
+    "storage_bucket": "cant-wait-1995.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:911578362503:android:cffaea8c44baa3bc95fe22",
+        "android_client_info": {
+          "package_name": "com.aduzja.cantwait28"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "911578362503-0d8lmreu1q802onf7alhjdh160qjcnvn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAsR6ZfzPbhYz39Ig3EgKq547y-HNdgtuU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "911578362503-0d8lmreu1q802onf7alhjdh160qjcnvn.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "911578362503-mbr33ae0dtjf88bllrqr7f5ko934c1rk.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.aduzja.cantwait28"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:911578362503:android:b76508a92257600095fe22",
+        "android_client_info": {
+          "package_name": "com.aduzja.im_still_waiting"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "911578362503-0d8lmreu1q802onf7alhjdh160qjcnvn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAsR6ZfzPbhYz39Ig3EgKq547y-HNdgtuU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "911578362503-0d8lmreu1q802onf7alhjdh160qjcnvn.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "911578362503-mbr33ae0dtjf88bllrqr7f5ko934c1rk.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.aduzja.cantwait28"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

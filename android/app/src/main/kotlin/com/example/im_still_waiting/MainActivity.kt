@@ -1,4 +1,4 @@
-package com.example.im_still_waiting
+package com.aduzja.im_still_waiting
 
 import io.flutter.embedding.android.FlutterActivity
 

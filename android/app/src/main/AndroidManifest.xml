@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.im_still_waiting">
+    package="com.aduzja.im_still_waiting">
    <application
         android:label="im_still_waiting"
         android:name="${applicationName}"
