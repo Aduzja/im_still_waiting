@@ -9,8 +9,17 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: _HomePageBody(),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('I\'m still waiting ⏲️'),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.add),
+            onPressed: () {},
+          ),
+        ],
+      ),
+      body: const _HomePageBody(),
     );
   }
 }
@@ -26,9 +35,7 @@ class _HomePageBody extends StatelessWidget {
       create: (context) => HomePageCubit()..start(),
       child: BlocBuilder<HomePageCubit, HomePageState>(
         builder: (context, state) {
-          return ListView(
-            children: const [],
-          );
+          return ListView();
         },
       ),
     );
