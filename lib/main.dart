@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:im_still_waiting/app/home/page/home_page.dart';
 import 'firebase_options.dart';
 
@@ -15,10 +16,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'I\'m still waiting',
       theme: ThemeData(
+        textTheme: GoogleFonts.montserratTextTheme(
+          Theme.of(context).textTheme,
+        ),
         useMaterial3: true,
-        primarySwatch: Colors.pink,
+        primarySwatch: Colors.green,
       ),
       home: const HomePage(),
     );
