@@ -50,20 +50,20 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAsR6ZfzPbhYz39Ig3EgKq547y-HNdgtuU',
-    appId: '1:911578362503:android:b76508a92257600095fe22',
-    messagingSenderId: '911578362503',
-    projectId: 'cant-wait-1995',
-    storageBucket: 'cant-wait-1995.appspot.com',
+    apiKey: 'AIzaSyCkLxbZGB2nnyAo_j7vzOXesnc9oUjB_6A',
+    appId: '1:799495065300:android:2bcac62fd54338b038b541',
+    messagingSenderId: '799495065300',
+    projectId: 'im-still-waiting-95',
+    storageBucket: 'im-still-waiting-95.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyC6zaBOOVBG0X4I3me0YqQBFfoq9M0bIgo',
-    appId: '1:911578362503:ios:9dffe769cdb789bf95fe22',
-    messagingSenderId: '911578362503',
-    projectId: 'cant-wait-1995',
-    storageBucket: 'cant-wait-1995.appspot.com',
-    iosClientId: '911578362503-bvvc9ibb6ne9e4p50lcvt5pask4qm17d.apps.googleusercontent.com',
+    apiKey: 'AIzaSyDnI5hzs0cIzUtdzOfDWtJ8GynpK9Csg4M',
+    appId: '1:799495065300:ios:2bccba0ed151022e38b541',
+    messagingSenderId: '799495065300',
+    projectId: 'im-still-waiting-95',
+    storageBucket: 'im-still-waiting-95.appspot.com',
+    iosClientId: '799495065300-r6vd5h54al1t0galmmuqcldg0qaq9bdb.apps.googleusercontent.com',
     iosBundleId: 'com.aduzja.imStillWaiting',
   );
 }
