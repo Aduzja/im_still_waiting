@@ -2,11 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:im_still_waiting/features/add/cubit/add_cubit.dart';
 import 'package:im_still_waiting/models/item_model.dart';
+import 'package:intl/intl.dart';
 
-class AddPage extends StatelessWidget {
+class AddPage extends StatefulWidget {
   const AddPage({
     Key? key,
   }) : super(key: key);
+
+  @override
+  State<AddPage> createState() => _AddPageState();
+}
+
+class _AddPageState extends State<AddPage> {
+  String? _imageURL;
+  String? _title;
+  DateTime? _releaseDate;
 
   @override
   Widget build(BuildContext context) {
@@ -47,16 +57,19 @@ class AddPage extends StatelessWidget {
                 actions: [
                   IconButton(
                     color: Colors.green.shade800,
-                    onPressed: () {
-                      context.read<AddCubit>().add(
-                            ItemModel(
-                              imageURL:
-                                  'https://assets.reedpopcdn.com/psvr2-headline_EmqTJ9l.jpg/BROK/resize/1200x1200%3E/format/jpg/quality/70/psvr2-headline_EmqTJ9l.jpg',
-                              title: 'Gogle VR SONY PlayStation VR2',
-                              releaseDate: DateTime(2023, 2, 23),
-                            ),
-                          );
-                    },
+                    onPressed: _imageURL == null ||
+                            _title == null ||
+                            _releaseDate == null
+                        ? null
+                        : () {
+                            context.read<AddCubit>().add(
+                                  ItemModel(
+                                    imageURL: _imageURL!,
+                                    title: _title!,
+                                    releaseDate: _releaseDate!,
+                                  ),
+                                );
+                          },
                     //   ItemModel(
                     //   imageURL:
                     //       'https://assets.reedpopcdn.com/psvr2-headline_EmqTJ9l.jpg/BROK/resize/1200x1200%3E/format/jpg/quality/70/psvr2-headline_EmqTJ9l.jpg',
@@ -69,13 +82,30 @@ class AddPage extends StatelessWidget {
                     //   title: 'Sons of the Forest',
                     //   releaseDate: '2023-02-23',
                     // ),
-                    icon: const Icon(
-                      Icons.check,
-                    ),
+                    icon: const Icon(Icons.check),
                   ),
                 ],
               ),
-              body: const _AddPageBody(),
+              body: _AddPageBody(
+                onTitleChanged: (newValue) {
+                  setState(() {
+                    _title = newValue;
+                  });
+                },
+                onImageUrlChanged: (newValue) {
+                  setState(() {
+                    _imageURL = newValue;
+                  });
+                },
+                onDateChanged: (newValue) {
+                  setState(() {
+                    _releaseDate = newValue as DateTime?;
+                  });
+                },
+                selectedDateFormatted: _releaseDate != null
+                    ? DateFormat.yMMMMd().format(_releaseDate!)
+                    : null,
+              ),
             );
           },
         ),
@@ -87,7 +117,16 @@ class AddPage extends StatelessWidget {
 class _AddPageBody extends StatelessWidget {
   const _AddPageBody({
     Key? key,
+    required this.onTitleChanged,
+    required this.onImageUrlChanged,
+    required this.onDateChanged,
+    this.selectedDateFormatted,
   }) : super(key: key);
+
+  final Function(String) onTitleChanged;
+  final Function(String) onImageUrlChanged;
+  final Function(String) onDateChanged;
+  final String? selectedDateFormatted;
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +135,46 @@ class _AddPageBody extends StatelessWidget {
         horizontal: 30,
         vertical: 20,
       ),
-      children: const [],
+      children: [
+        TextField(
+          onChanged: onTitleChanged,
+          decoration: const InputDecoration(
+            border: OutlineInputBorder(),
+            hintText: 'Put name here',
+            label: Text('What are you waiting for? 👀'),
+          ),
+        ),
+        const SizedBox(height: 20),
+        TextField(
+          onChanged: onImageUrlChanged,
+          decoration: const InputDecoration(
+            border: OutlineInputBorder(),
+            hintText: 'http:// ... .jpg',
+            label: Text('Paste image URL'),
+          ),
+        ),
+        const SizedBox(height: 20),
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.orange.shade400,
+          ),
+          onPressed: () async {
+            final selectedDate = await showDatePicker(
+              context: context,
+              initialDate: DateTime.now(),
+              firstDate: DateTime.now(),
+              lastDate: DateTime.now().add(
+                const Duration(days: 365 * 10),
+              ),
+            );
+            onDateChanged(selectedDate as String);
+          },
+          child: Text(
+            selectedDateFormatted ?? 'Choose release date',
+            style: const TextStyle(color: Colors.white),
+          ),
+        ),
+      ],
     );
   }
 }
