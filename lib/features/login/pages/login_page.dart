@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:im_still_waiting/features/login/page/cubit/login_cubit.dart';
+import 'package:im_still_waiting/features/login/cubit/login_cubit.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key? key}) : super(key: key);

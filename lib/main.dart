@@ -3,8 +3,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:im_still_waiting/features/home/page/home_page.dart';
-import 'package:im_still_waiting/features/login/page/cubit/login_cubit.dart';
-import 'package:im_still_waiting/features/login/page/login_page.dart';
+import 'package:im_still_waiting/features/login/cubit/login_cubit.dart';
+import 'package:im_still_waiting/features/login/pages/login_page.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -47,7 +47,7 @@ class _RootPage extends StatelessWidget {
           if (user == null) {
             return LoginPage();
           }
-          return HomePage(user: user);
+          return HomePage(user: user, email: user.email);
         },
       ),
     );

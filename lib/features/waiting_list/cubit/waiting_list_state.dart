@@ -1,13 +1,12 @@
-part of 'home_page_cubit.dart';
+part of 'waiting_list_cubit.dart';
 
-class HomePageState {
-
-  const HomePageState({
-    this.items = const [],
+class WaitingListState {
+  const WaitingListState({
+    this.itemModel,
     this.loadingErrorOccured = false,
     this.removingErrorOccured = false,
   });
-  final List<ItemModel> items;
+  final ItemModel? itemModel;
   final bool loadingErrorOccured;
   final bool removingErrorOccured;
 }
