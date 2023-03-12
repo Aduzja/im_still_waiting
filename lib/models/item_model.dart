@@ -1,34 +1,23 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 
 class ItemModel {
-  const ItemModel({
-    this.id = '',
-    required this.imageURL,
+  ItemModel({
+    required this.id,
     required this.title,
+    required this.imageURL,
     required this.releaseDate,
   });
 
   final String id;
-  final String imageURL;
   final String title;
+  final String imageURL;
   final DateTime releaseDate;
 
-  int get daysLeft {
-    return releaseDate.difference(DateTime.now()).inDays;
+  String daysLeft() {
+    return releaseDate.difference(DateTime.now()).inDays.toString();
   }
 
-  String get releaseDateFormatted {
-    return DateFormat('yMMMd').format(releaseDate);
-  }
-
-  static ItemModel createFromDocumentSnapshot(
-      DocumentSnapshot<Map<String, dynamic>> doc) {
-    return ItemModel(
-      id: doc.id,
-      imageURL: doc['image_url'],
-      title: doc['title'],
-      releaseDate: (doc['release_date'] as Timestamp).toDate(),
-    );
+  String releaseDateFormatted() {
+    return DateFormat.yMMMEd().format(releaseDate);
   }
 }

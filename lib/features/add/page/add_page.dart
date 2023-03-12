@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:im_still_waiting/features/add/cubit/add_cubit.dart';
-import 'package:im_still_waiting/models/item_model.dart';
+import 'package:im_still_waiting/reporisories/items_repository.dart';
 import 'package:intl/intl.dart';
 
 class AddPage extends StatefulWidget {
@@ -21,15 +21,16 @@ class _AddPageState extends State<AddPage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AddCubit(),
+      create: (context) => AddCubit(ItemsRepository()),
       child: BlocListener<AddCubit, AddState>(
         listener: (context, state) {
-          if (state.saved == true) {
+          if (state.saved) {
             Navigator.of(context).pop();
-          } else if (state.errorMessage.isNotEmpty) {
+          }
+          if (state.errorMessage.isNotEmpty) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text('An error occured: ${state.errorMessage}'),
+                content: Text(state.errorMessage),
                 backgroundColor: Colors.red,
               ),
             );
@@ -56,18 +57,20 @@ class _AddPageState extends State<AddPage> {
                 backgroundColor: Colors.green.shade300,
                 actions: [
                   IconButton(
-                    color: Colors.green.shade800,
+                    color: _imageURL == null ||
+                            _title == null ||
+                            _releaseDate == null
+                        ? Colors.green.shade800
+                        : Colors.orange.shade400,
                     onPressed: _imageURL == null ||
                             _title == null ||
                             _releaseDate == null
                         ? null
                         : () {
                             context.read<AddCubit>().add(
-                                  ItemModel(
-                                    imageURL: _imageURL!,
-                                    title: _title!,
-                                    releaseDate: _releaseDate!,
-                                  ),
+                                  _title!,
+                                  _imageURL!,
+                                  _releaseDate!,
                                 );
                           },
                     //   ItemModel(
@@ -99,12 +102,12 @@ class _AddPageState extends State<AddPage> {
                 },
                 onDateChanged: (newValue) {
                   setState(() {
-                    _releaseDate = newValue as DateTime?;
+                    _releaseDate = newValue;
                   });
                 },
-                selectedDateFormatted: _releaseDate != null
-                    ? DateFormat.yMMMMd().format(_releaseDate!)
-                    : null,
+                selectedDateFormatted: _releaseDate == null
+                    ? null
+                    : DateFormat.yMMMMEEEEd().format(_releaseDate!),
               ),
             );
           },
@@ -125,7 +128,7 @@ class _AddPageBody extends StatelessWidget {
 
   final Function(String) onTitleChanged;
   final Function(String) onImageUrlChanged;
-  final Function(String) onDateChanged;
+  final Function(DateTime?) onDateChanged;
   final String? selectedDateFormatted;
 
   @override
@@ -136,6 +139,7 @@ class _AddPageBody extends StatelessWidget {
         vertical: 20,
       ),
       children: [
+        const SizedBox(height: 50),
         TextField(
           onChanged: onTitleChanged,
           decoration: const InputDecoration(
@@ -154,10 +158,7 @@ class _AddPageBody extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 20),
-        ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.orange.shade400,
-          ),
+        TextButton(
           onPressed: () async {
             final selectedDate = await showDatePicker(
               context: context,
@@ -167,12 +168,9 @@ class _AddPageBody extends StatelessWidget {
                 const Duration(days: 365 * 10),
               ),
             );
-            onDateChanged(selectedDate as String);
+            onDateChanged(selectedDate);
           },
-          child: Text(
-            selectedDateFormatted ?? 'Choose release date',
-            style: const TextStyle(color: Colors.white),
-          ),
+          child: Text(selectedDateFormatted ?? 'Choose release date 📅'),
         ),
       ],
     );

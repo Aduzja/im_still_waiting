@@ -1,79 +1,83 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:im_still_waiting/features/waiting_list/cubit/waiting_list_cubit.dart';
+import 'package:im_still_waiting/models/item_model.dart';
 import 'package:im_still_waiting/reporisories/items_repository.dart';
 
 class WaitingListPage extends StatelessWidget {
   const WaitingListPage({
+    required this.id,
     Key? key,
-    required this.email,
-    required this.itemID,
   }) : super(key: key);
 
-  final String? email;
-  final String itemID;
+  final String id;
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) {
-        return WaitingListCubit(ItemsRepository())..getItemWithID(itemID);
-      },
-      child: BlocConsumer<WaitingListCubit, WaitingListState>(
-        listener: (context, state) {
-          if (state.removingErrorOccured) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Unable to remove the item'),
-                backgroundColor: Colors.red,
-              ),
-            );
-          }
-          if (state.loadingErrorOccured) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Couldn\'t load data :('),
-                backgroundColor: Colors.red,
-              ),
-            );
-          }
-        },
-        builder: (context, state) {
-          return Scaffold(
-            appBar: AppBar(
-              title: const Text('Can\'t Wait 🤩'),
+    return Scaffold(
+      backgroundColor: Colors.green.shade50,
+      appBar: AppBar(
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(25),
+            bottomRight: Radius.circular(25),
+          ),
+        ),
+        centerTitle: true,
+        title: const Text(
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
             ),
-            body: const _DetailsPageBody(),
-            floatingActionButton: FloatingActionButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Icon(Icons.arrow_back),
-            ),
-          );
-        },
+            'I\'M STILL WAITING'),
+        backgroundColor: Colors.green.shade300,
+      ),
+      body: BlocProvider(
+        create: (context) =>
+            WaitingListCubit(ItemsRepository())..getItemWithID(id),
+        child: BlocBuilder<WaitingListCubit, WaitingListState>(
+          builder: (context, state) {
+            final itemModel = state.itemModel;
+            if (itemModel == null) {
+              return const CircularProgressIndicator();
+            }
+            return ListView(
+              padding: const EdgeInsets.symmetric(
+                vertical: 20,
+              ),
+              children: [
+                _ListViewItem(
+                  itemModel: itemModel,
+                ),
+              ],
+            );
+          },
+        ),
       ),
     );
   }
 }
 
-class _DetailsPageBody extends StatelessWidget {
-  const _DetailsPageBody({
+class _ListViewItem extends StatelessWidget {
+  const _ListViewItem({
     Key? key,
+    required this.itemModel,
   }) : super(key: key);
+
+  final ItemModel itemModel;
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<WaitingListCubit, WaitingListState>(
-      builder: (context, state) {
-        final itemModel = state.itemModel;
-        if (itemModel == null) {
-          return const SizedBox.shrink();
-        }
-        return ListView(
-          padding: const EdgeInsets.symmetric(
-            vertical: 20,
-          ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        vertical: 10,
+        horizontal: 30,
+      ),
+      child: Container(
+        decoration: const BoxDecoration(
+          color: Colors.black12,
+        ),
+        child: Column(
           children: [
             Container(
               height: 80,
@@ -104,7 +108,9 @@ class _DetailsPageBody extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 10),
-                        Text(itemModel.releaseDateFormatted),
+                        Text(
+                          itemModel.releaseDateFormatted(),
+                        ),
                       ],
                     ),
                   ),
@@ -117,19 +123,22 @@ class _DetailsPageBody extends StatelessWidget {
                   padding: const EdgeInsets.all(10),
                   child: Column(
                     children: [
-                      Text('${itemModel.daysLeft}'),
+                      Text(
+                        itemModel.daysLeft(),
+                        style: const TextStyle(
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const Text('days left'),
                     ],
                   ),
                 ),
               ],
             ),
-            const Padding(
-              padding: EdgeInsets.all(20.0),
-              child: Text(''),
-            ),
           ],
-        );
-      },
+        ),
+      ),
     );
   }
 }

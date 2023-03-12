@@ -27,6 +27,7 @@ class UserProfile extends StatelessWidget {
             ),
           ),
           Text('You\'re sign in as $email'),
+          
           const SizedBox(height: 20),
           ElevatedButton(
             style: ElevatedButton.styleFrom(

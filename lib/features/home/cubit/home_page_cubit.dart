@@ -14,7 +14,7 @@ class HomePageCubit extends Cubit<HomePageState> {
   StreamSubscription? _streamSubscription;
 
   Future<void> start() async {
-   _streamSubscription = _itemsRepository.getItemsStream().listen(
+    _streamSubscription = _itemsRepository.getItemsStream().listen(
       (items) {
         emit(HomePageState(items: items));
       },
@@ -25,9 +25,9 @@ class HomePageCubit extends Cubit<HomePageState> {
       );
   }
 
-  Future<void> remove(ItemModel model) async {
+  Future<void> remove({required String documentID}) async {
     try {
-    await _itemsRepository.remove(model);
+      await _itemsRepository.delete(id: documentID);
     } catch (error) {
       emit(
         const HomePageState(removingErrorOccured: true),

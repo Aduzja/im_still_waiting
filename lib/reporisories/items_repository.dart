@@ -3,22 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:im_still_waiting/models/item_model.dart';
 
 class ItemsRepository {
-  Future<ItemModel> getItemWithID(String itemID) async {
-    await Future.delayed(const Duration(seconds: 1));
-    final userID = FirebaseAuth.instance.currentUser?.uid;
-    if (userID == null) {
-      throw Exception('User is not logged in');
-    }
-    final doc = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(userID)
-        .collection('items')
-        .doc(itemID)
-        .get();
-    final itemModel = ItemModel.createFromDocumentSnapshot(doc);
-    return itemModel;
-  }
-
   Stream<List<ItemModel>> getItemsStream() {
     final userID = FirebaseAuth.instance.currentUser?.uid;
     if (userID == null) {
@@ -30,19 +14,21 @@ class ItemsRepository {
         .collection('items')
         .orderBy('release_date')
         .snapshots()
-        .map(
-      (itemsRaw) {
-        final items = itemsRaw.docs.map(
-          (doc) {
-            return ItemModel.createFromDocumentSnapshot(doc);
-          },
-        ).toList();
-        return items;
-      },
-    );
+        .map((querySnapshot) {
+      return querySnapshot.docs.map(
+        (doc) {
+          return ItemModel(
+            id: doc.id,
+            title: doc['title'],
+            imageURL: doc['image_url'],
+            releaseDate: (doc['release_date'] as Timestamp).toDate(),
+          );
+        },
+      ).toList();
+    });
   }
 
-  Future<void> remove(ItemModel model) {
+  Future<void> delete({required String id}) {
     final userID = FirebaseAuth.instance.currentUser?.uid;
     if (userID == null) {
       throw Exception('User is not logged in');
@@ -51,7 +37,48 @@ class ItemsRepository {
         .collection('users')
         .doc(userID)
         .collection('items')
-        .doc(model.id)
+        .doc(id)
         .delete();
+  }
+
+  Future<ItemModel> get({required String id}) async {
+    final userID = FirebaseAuth.instance.currentUser?.uid;
+    if (userID == null) {
+      throw Exception('User is not logged in');
+    }
+    final doc = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(userID)
+        .collection('items')
+        .doc(id)
+        .get();
+    return ItemModel(
+      id: doc.id,
+      title: doc['title'],
+      imageURL: doc['image_url'],
+      releaseDate: (doc['release_date'] as Timestamp).toDate(),
+    );
+  }
+
+  Future<void> add(
+    String title,
+    String imageURL,
+    DateTime releaseDate,
+  ) async {
+    final userID = FirebaseAuth.instance.currentUser?.uid;
+    if (userID == null) {
+      throw Exception('User is not logged in');
+    }
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(userID)
+        .collection('items')
+        .add(
+      {
+        'title': title,
+        'image_url': imageURL,
+        'release_date': releaseDate,
+      },
+    );
   }
 }
