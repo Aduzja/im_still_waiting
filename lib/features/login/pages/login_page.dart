@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:im_still_waiting/features/login/cubit/login_cubit.dart';
 
 class LoginPage extends StatefulWidget {
@@ -58,11 +59,10 @@ class _LoginPageState extends State<LoginPage> {
               Padding(
                 padding: const EdgeInsets.only(top: 20, bottom: 20),
                 child: SizedBox(
-                  width: 140,
+                  width: 200,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor:
-                          Colors.orange.shade400, 
+                      backgroundColor: Colors.orange.shade400,
                     ),
                     onPressed: () async {
                       if (isCreatingAccount == true) {
@@ -124,8 +124,44 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
               ],
+              const SizedBox(height: 20),
+              LoginIn(),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class LoginIn extends StatelessWidget {
+  LoginIn({super.key});
+
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 200,
+      child: ElevatedButton(
+        onPressed: () {
+          _googleSignIn.signIn().then((value) {
+            // String userName = value!.displayName!;
+            // String profilePicture = value.photoUrl!;
+          });
+        },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              "assets/google_icon.png",
+              height: 20,
+            ),
+            const Text(
+              '  Login with Google',
+              style: TextStyle(color: Colors.black87),
+            ),
+          ],
         ),
       ),
     );
