@@ -1,16 +1,23 @@
-# im_still_waiting
+# I'm still waiting!
 
-A new Flutter project.
+My very first app added to Google Play
 
-## Getting Started
+## Count down the days to events!
+- friend's birthday?
+- your wedding?
+- maybe your dream vacation with your family?
 
-This project is a starting point for a Flutter application.
+Add this to the app and see how many days are left!
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Sign in via Login or Google 
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## What used?
+- Counting days
+- Login with Google
+- BloC
+
+Download and try here:
+https://play.google.com/store/apps/details?id=com.aduzja.im_still_waiting
+
+Enjoy!🤓
